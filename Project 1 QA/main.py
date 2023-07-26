@@ -1,7 +1,7 @@
 # Import dependencies
 import os
 from dotenv import load_dotenv, find_dotenv
-from load_document import load_document
+from load_document import load_document, load_from_wikipedia
 
 # Testing the loader function
 # data = load_document('Files/us_constitution.pdf')
@@ -14,3 +14,13 @@ from load_document import load_document
 
 # data = load_document('Files/the_great_gatsby.docx')
 # print(data[0].page_content)
+
+
+# External loader test
+# data = load_from_wikipedia('GPT-4')
+# print(data[0].page_content)
+
+# with open('temp.txt', "w") as file:
+#     file.write(str(data[0]))
+
+
