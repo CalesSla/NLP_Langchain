@@ -19,5 +19,5 @@ llm = OpenAI(model_name = 'text-davinci-003', temperature=0.7, max_tokens=512)
 output = llm.generate(['Write an original tagline for a burger restaurant'] * 3)
 print(output)
 
-# for i in output[0].generations:
-#     print(i.text.strip())
+for i in output.generations:
+    print(i[0].text.strip())
