@@ -1,5 +1,5 @@
-# Helper function to load content of a file
 def load_document(file):
+    """Helper funcion to load a document from a file"""
     import os
     name, ext = os.path.splitext(file)
 
@@ -18,8 +18,8 @@ def load_document(file):
     return data
 
 
-# Helper function to load content from wikipedia
 def load_from_wikipedia(query, lang='en', load_max_docs=2):
+    """Helper function to load a document from wikipedia"""
     from langchain.document_loaders import WikipediaLoader
     print(f'Loading document {query} from wikipedia....')
     loader = WikipediaLoader(query, lang=lang, load_max_docs=load_max_docs, doc_content_chars_max=20000)
