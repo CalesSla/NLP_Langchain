@@ -8,6 +8,8 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import UnstructuredPDFLoader
+from langchain.agents import initialize_agent, Tool
+from langchain.utilities import WikipediaAPIWrapper
 
 load_dotenv(find_dotenv(), override=True)
 
@@ -88,9 +90,54 @@ Text: {text}
 combine_prompt_template = PromptTemplate(input_variables=['text'], template=combine_prompt)
 summary_chain = load_summarize_chain(llm = llm, chain_type = 'map_reduce', map_prompt = map_prompt_template, combine_prompt = combine_prompt_template, verbose = True)
 
-output = summary_chain.run(chunks)]
+output = summary_chain.run(chunks)
 print(output)
 
 
 
 # Summarizing using the refine chain
+loader = UnstructuredPDFLoader('Files/attention_is_all_you_need.pdf')
+data = loader.load()
+print(data)
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=100)
+chunks = text_splitter.split_documents(data)
+print(len(chunks))
+
+llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
+chain = load_summarize_chain(llm, chain_type = 'refine', verbose = True)
+
+output_summary = chain.run(chunks)
+print(output_summary)
+
+
+# Refine chain with custom prompts
+prompt_template = """
+Write a concise summary of the following text extracting the key information:
+Text: {text}
+CONCISE SUMMARY:
+"""
+initial_prompt = PromptTemplate(input_variables=['text'], template=prompt_template)
+refine_template = """
+Your job is to produce a final summary.
+I have provided an existing summary up to a certain point: {existing_answer}.
+Please refine the existing summary with some more context below.
+----------------
+{text}
+----------------
+Start the final summary with an INTRODUCTION PARAGRAPH that gives an overview of the topic FOLLOWED
+by BULLET POINTS if possible AND end the summary with a CONCLUSION PHRASE.
+"""
+
+refine_prompt = PromptTemplate(input_variables=['text', 'existing_answer'], template=refine_template)
+chain = load_summarize_chain(llm, chain_type = 'refine', question_prompt = initial_prompt, refine_prompt = refine_prompt, verbose = True, return_intermediate_steps = False)
+output_summary = chain.run(chunks)
+print(output_summary)
+
+
+# Summarizing using langchain agents
+llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
+wikipedia = WikipediaAPIWrapper()
+tools = [Tool(name='Wikipedia', func=wikipedia.run), description = 'Useful for summarizing Wikipedia articles'']
+agent_executor = initialize_agent(tools, llm, agent = 'zero-shot-react-description', verbose = True)
+output = agent_executor.run('Can you please provide a short summary of George Washington?')
