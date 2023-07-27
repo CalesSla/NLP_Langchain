@@ -138,6 +138,6 @@ print(output_summary)
 # Summarizing using langchain agents
 llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
 wikipedia = WikipediaAPIWrapper()
-tools = [Tool(name='Wikipedia', func=wikipedia.run), description = 'Useful for summarizing Wikipedia articles'']
+tools = [Tool(name='Wikipedia', func=wikipedia.run, description = 'Useful for summarizing Wikipedia articles')]
 agent_executor = initialize_agent(tools, llm, agent = 'zero-shot-react-description', verbose = True)
 output = agent_executor.run('Can you please provide a short summary of George Washington?')
