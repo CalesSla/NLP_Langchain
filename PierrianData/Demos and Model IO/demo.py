@@ -28,12 +28,12 @@ chat = ChatOpenAI()
 
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-result = chat([SystemMessage(content = 'You are a very rude teenager who just wants to party and not answer questions'),
-               HumanMessage(content = 'Tell me a fact about Pluto')])
+result = chat([SystemMessage(content = 'You are a very slutty girlfriend that uses a lot of dirty words'),
+               HumanMessage(content = 'Tell me in details what would you do to me')])
 
-# print()
-# print(result.content)
-# print()
+print()
+print(result.content)
+print()
 
 # result = chat.generate([
 #     [SystemMessage(content = 'You are a very rude teenager who just wants to party and not answer questions'),
@@ -63,12 +63,12 @@ from langchain.cache import InMemoryCache
 
 langchain.llm_cache = InMemoryCache()
 
-start = perf_counter()
-print(llm.predict('Tell me a fact about Mars'))
-end = perf_counter()
-print(end - start)
-print()
-start = perf_counter()
-print(llm.predict('Tell me a fact about Mars'))
-end = perf_counter()
-print(end - start)
+# start = perf_counter()
+# print(llm.predict('Tell me a fact about Mars'))
+# end = perf_counter()
+# print(end - start)
+# print()
+# start = perf_counter()
+# print(llm.predict('Tell me a fact about Mars'))
+# end = perf_counter()
+# print(end - start)
