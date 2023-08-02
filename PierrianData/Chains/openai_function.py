@@ -36,3 +36,5 @@ chat_prompt = ChatPromptTemplate.from_template(template)
 
 chain = create_structured_output_chain(json_schema, llm, chat_prompt, verbose = True)
 result = chain.run(country = 'German')
+
+albert = Scientist(result['first_name'], result['last_name'])
