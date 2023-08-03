@@ -21,7 +21,7 @@ from langchain.document_loaders import TextLoader
 # 4. Get vector chunks and save them to vector store
 # 5. Define a query and do similarity search
 
-loader = TextLoader("C:\\Users\\User\\Desktop\\Langchain\\PierrianData\\some_data\\FDR_State_of_Union_1944.txt")
+loader = TextLoader("C:\\Users\\User\\Desktop\\Langchain\\PierrianData\\some_data\\US_Constitution.txt")
 documents = loader.load()
 
 text_splitter = CharacterTextSplitter(chunk_size = 500)
